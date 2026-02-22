@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
+import MezmurPlayer from './MezmurPlayer';
 
 const romanticLines = [
     { text: "Even when I'm with you, Tsi, I'm longing for you.", delay: 0 },
@@ -164,21 +165,26 @@ export default function RomanticSection() {
                                     ))}
                                 </div>
 
-                                {/* Secondary Photos Gallery */}
-                                <div className="flex flex-col gap-4 flex-shrink-0">
-                                    <motion.img
-                                        initial={{ opacity: 0, x: 20 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        src="/images/photo_9_2026-02-05_23-02-47.jpg"
-                                        className="w-32 h-40 md:w-40 md:h-52 object-cover rounded-2xl border border-white/20 shadow-xl rotate-3 hover:rotate-0 transition-transform"
-                                    />
-                                    <motion.img
-                                        initial={{ opacity: 0, x: 20 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.3 }}
-                                        src="/images/photo_10_2026-02-05_23-02-47.jpg"
-                                        className="w-32 h-40 md:w-40 md:h-52 object-cover rounded-2xl border border-white/20 shadow-xl -rotate-3 hover:rotate-0 transition-transform"
-                                    />
+                                {/* Secondary Photos & Voice Gallery */}
+                                <div className="flex flex-col gap-4 flex-shrink-0 w-full lg:w-auto">
+                                    <div className="flex gap-4 justify-center">
+                                        <motion.img
+                                            initial={{ opacity: 0, x: 20 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            src="/images/photo_9_2026-02-05_23-02-47.jpg"
+                                            className="w-32 h-40 md:w-36 md:h-48 object-cover rounded-2xl border border-white/20 shadow-xl rotate-3 hover:rotate-0 transition-transform"
+                                        />
+                                        <motion.img
+                                            initial={{ opacity: 0, x: 20 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.3 }}
+                                            src="/images/photo_10_2026-02-05_23-02-47.jpg"
+                                            className="w-32 h-40 md:w-36 md:h-48 object-cover rounded-2xl border border-white/20 shadow-xl -rotate-3 hover:rotate-0 transition-transform"
+                                        />
+                                    </div>
+
+                                    {/* Tsi's Mezmur Voice */}
+                                    <MezmurPlayer />
                                 </div>
                             </div>
 

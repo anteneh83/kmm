@@ -1,34 +1,62 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import useSound from 'use-sound';
+import { useEffect, useRef, useState } from "react";
 
 export default function BackgroundMusic() {
     const [isPlaying, setIsPlaying] = useState(false);
-    // Placeholder music path - user would need to provide a real file in public/audio
-    const [play, { pause, stop }] = useSound('/audio/background.mp3', {
-        volume: 0.2,
-        loop: true,
-    });
+    const [hasSource, setHasSource] = useState(false);
+    const audioRef = useRef(null);
+
+    // Check if /audio/background.mp3 exists in public folder
+    useEffect(() => {
+        let cancelled = false;
+        fetch("/audio/background.mp3", { method: "HEAD" })
+            .then((res) => {
+                if (cancelled) return;
+                setHasSource(res.ok);
+                if (res.ok && !audioRef.current) {
+                    audioRef.current = new Audio("/audio/background.mp3");
+                    audioRef.current.loop = true;
+                    audioRef.current.volume = 0.2;
+                }
+            })
+            .catch(() => {
+                if (!cancelled) setHasSource(false);
+            });
+
+        return () => {
+            cancelled = true;
+            if (audioRef.current) {
+                try {
+                    audioRef.current.pause();
+                } catch {}
+            }
+        };
+    }, []);
 
     const toggleMusic = () => {
+        if (!hasSource || !audioRef.current) return;
         if (isPlaying) {
-            pause();
+            audioRef.current.pause();
+            setIsPlaying(false);
         } else {
-            play();
+            audioRef.current.play().catch(() => {});
+            setIsPlaying(true);
         }
-        setIsPlaying(!isPlaying);
     };
 
     return (
         <div className="fixed bottom-6 right-6 z-50">
             <button
                 onClick={toggleMusic}
-                className="glass-card w-12 h-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform shadow-lg"
-                style={{ borderColor: isPlaying ? '#FFC1E3' : 'rgba(255,255,255,0.2)' }}
-                title={isPlaying ? 'Pause Music' : 'Play Music'}
+                disabled={!hasSource}
+                className={`glass-card w-12 h-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform shadow-lg ${
+                    !hasSource ? "opacity-60 cursor-not-allowed" : ""
+                }`}
+                style={{ borderColor: isPlaying ? "#FFC1E3" : "rgba(255,255,255,0.2)" }}
+                title={hasSource ? (isPlaying ? "Pause Music" : "Play Music") : "Drop background.mp3 into public/audio to enable"}
             >
-                <span className="text-xl">{isPlaying ? '🎵' : '🔇'}</span>
+                <span className="text-xl">{isPlaying ? "🎵" : hasSource ? "🔊" : "🔇"}</span>
             </button>
 
             {isPlaying && (
