@@ -5,6 +5,7 @@ A small Next.js app (personal surprise site) with audio playback features.
 ## Quick start
 
 Requirements
+
 - Node.js 18+ recommended
 - npm
 

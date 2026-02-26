@@ -8,6 +8,7 @@ import Quiz from '../components/Quiz';
 import FinalSurprise from '../components/FinalSurprise';
 import BackgroundMusic from '../components/BackgroundMusic';
 import FloatingNames from '../components/FloatingNames';
+import MessageMemories from '../components/MessageMemories';
 
 // Dynamically load Three.js scene (client-only)
 const ThreeScene = dynamic(() => import('../components/ThreeScene'), {
@@ -27,6 +28,7 @@ export default function Home() {
             <LandingPage />
             <MemoriesTimeline />
             <RomanticSection />
+            <MessageMemories />
             <Quiz />
             <FinalSurprise />
 
